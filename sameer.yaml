@@ -1,0 +1,24 @@
+---
+- hosts: webservers
+  become: true
+  tasks:
+    - name: Install Apache web server
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start and enable httpd service
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create index.html file
+      copy:
+        content: "<h1>Welcome to my website!</h1>"
+        dest: /var/www/html/index.html
+
+    - name: Clone Ansible Git repo
+      git:
+        repo: https://github.com/ansible/ansible.git
+        dest: /opt/ansible
